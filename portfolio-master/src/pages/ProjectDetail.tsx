@@ -862,10 +862,32 @@ rule Zeus_Banking_Trojan {
 
   const renderContent = (content: string | string[]) => {
     if (Array.isArray(content)) {
-      return content.map((line, index) => {
-        if (line.startsWith('|') && line.endsWith('|')) {
+      const elements: JSX.Element[] = [];
+      let currentCodeBlock: string[] = [];
+      let inCodeBlock = false;
+      let codeLanguage = '';
+
+      content.forEach((line, index) => {
+        if (line.startsWith('```')) {
+          if (inCodeBlock) {
+            // End code block
+            elements.push(
+              <pre key={`code-${index}`} className="bg-muted/50 p-4 rounded-lg overflow-x-auto my-4">
+                <code className="text-sm text-foreground font-mono">{currentCodeBlock.join('\n')}</code>
+              </pre>
+            );
+            currentCodeBlock = [];
+            inCodeBlock = false;
+          } else {
+            // Start code block
+            inCodeBlock = true;
+            codeLanguage = line.slice(3).trim();
+          }
+        } else if (inCodeBlock) {
+          currentCodeBlock.push(line);
+        } else if (line.startsWith('|') && line.endsWith('|')) {
           // Table row
-          return (
+          elements.push(
             <div key={index} className="table-row">
               {line.split('|').slice(1, -1).map((cell, cellIndex) => (
                 <div key={cellIndex} className="table-cell border border-border p-2 text-sm">
@@ -876,21 +898,23 @@ rule Zeus_Banking_Trojan {
           );
         } else if (line.startsWith('**') && line.endsWith(':**')) {
           // Bold heading
-          return <h4 key={index} className="font-semibold text-foreground mt-4 mb-2">{line.slice(2, -3)}</h4>;
+          elements.push(<h4 key={index} className="font-semibold text-foreground mt-4 mb-2">{line.slice(2, -3)}</h4>);
         } else if (line.startsWith('- ')) {
           // List item
-          return <li key={index} className="ml-4 text-muted-foreground">{line.slice(2)}</li>;
+          elements.push(<li key={index} className="ml-4 text-muted-foreground">{line.slice(2)}</li>);
         } else if (line.match(/^\d+\./)) {
           // Numbered list item
-          return <li key={index} className="ml-4 text-muted-foreground list-decimal">{line}</li>;
+          elements.push(<li key={index} className="ml-4 text-muted-foreground list-decimal">{line}</li>);
         } else if (line === '') {
           // Empty line
-          return <br key={index} />;
+          elements.push(<br key={index} />);
         } else {
           // Regular text
-          return <p key={index} className="text-muted-foreground mb-2">{line}</p>;
+          elements.push(<p key={index} className="text-muted-foreground mb-2">{line}</p>);
         }
       });
+
+      return elements;
     } else if (content.includes('```')) {
       // Code block
       const parts = content.split('```');
