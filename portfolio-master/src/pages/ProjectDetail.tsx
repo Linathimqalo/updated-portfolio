@@ -906,13 +906,21 @@ rule Zeus_Banking_Trojan {
             // Inline bold with text after - render as paragraph with bold span
             elements.push(
               <p key={index} className="text-muted-foreground mb-2">
-                <span className="font-semibold text-foreground">{boldText}:</span> {restOfText}
+                <strong className="font-semibold text-foreground">{boldText}:</strong> {restOfText}
               </p>
             );
           } else {
             // Bold heading on its own line
             elements.push(<h4 key={index} className="font-semibold text-foreground mt-4 mb-2">{boldText}</h4>);
           }
+        } else if (line.startsWith('**') && line.endsWith('**')) {
+          // Handle standalone bold text like **text**
+          const boldText = line.slice(2, -2);
+          elements.push(
+            <p key={index} className="text-muted-foreground mb-2">
+              <strong className="font-semibold text-foreground">{boldText}</strong>
+            </p>
+          );
         } else if (line.startsWith('- ')) {
           // List item
           elements.push(<li key={index} className="ml-4 text-muted-foreground">{line.slice(2)}</li>);

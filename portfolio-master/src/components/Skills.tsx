@@ -8,6 +8,12 @@ const Skills: React.FC = () => {
 
   const skillCategories = [
     {
+      icon: Cloud,
+      title: "Cloud & IaC",
+      color: "from-yellow-500 to-orange-500",
+      skills: ["AWS", "Terraform", "KMS", "IAM", "S3"]
+    },
+    {
       icon: Shield,
       title: "SIEM & Monitoring",
       color: "from-red-500 to-orange-500",

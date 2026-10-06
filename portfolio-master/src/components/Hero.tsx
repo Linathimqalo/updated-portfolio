@@ -68,11 +68,13 @@ const Hero: React.FC = () => {
           className="mb-8"
         >
           <div className="space-y-2 text-xl md:text-2xl lg:text-3xl font-poppins font-medium">
-            <span className="text-primary">Systems Administrator</span>
+            <span className="text-primary">Cloud</span>
             <span className="text-muted-foreground"> | </span>
-            <span className="text-primary">Web Developer</span>
+            <span className="text-primary">Infrastructure</span>
             <span className="text-muted-foreground"> | </span>
-            <span className="text-primary">Cybersecurity Analyst</span>
+            <span className="text-primary">Security</span>
+            <span className="text-muted-foreground"> | </span>
+            <span className="text-primary">Systems</span>
           </div>
         </motion.div>
 
@@ -81,8 +83,7 @@ const Hero: React.FC = () => {
           className="mb-12"
         >
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto font-open-sans">
-            Building secure, scalable, and modern solutions through innovative technology
-            and cybersecurity expertise
+            Building and securing cloud infrastructure across AWS and Azure.
           </p>
         </motion.div>
 

@@ -1,29 +1,29 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Shield, Server, Code, Users } from 'lucide-react';
+import { Shield, Server, Code, Users, Cloud, Network } from 'lucide-react';
 import linathi from './../assets/linathi.jpg';
 
 const About: React.FC = () => {
   const highlights = [
     {
-      icon: Shield,
-      title: "Cybersecurity Expert",
-      description: "Specialized in threat detection, incident response, and security architecture"
+      icon: Cloud,
+      title: "Cloud",
+      description: "Building and securing cloud environments with Terraform, IAM, and S3."
     },
     {
       icon: Server,
-      title: "Infrastructure Management", 
-      description: "Managing 100+ websites with focus on performance and security"
+      title: "Infrastructure", 
+      description: "Server administration, DNS, and multi-tenant production environments."
     },
     {
-      icon: Code,
-      title: "Full-Stack Development",
-      description: "Building modern web applications with cutting-edge technologies"
+      icon: Shield,
+      title: "Systems",
+      description: "Windows and Linux administration, monitoring, and incident response."
     },
     {
-      icon: Users,
-      title: "Team Leadership",
-      description: "Leading technical teams and streamlining operational processes"
+      icon: Network,
+      title: "Security",
+      description: "WAF, email security, endpoint hardening, and threat detection."
     }
   ];
 
@@ -87,20 +87,12 @@ const About: React.FC = () => {
             <motion.div variants={itemVariants} className="lg:order-2">
               <div className="space-y-6">
                 <h3 className="font-poppins font-semibold text-2xl lg:text-3xl text-foreground">
-                  Passionate About <span className="text-primary">Secure Innovation</span>
+                  Cloud, Infrastructure, Security, Systems
                 </h3>
                 
                 <div className="prose prose-lg max-w-none">
                   <p className="font-open-sans text-muted-foreground leading-relaxed">
-                    Detail-oriented professional with <strong className="text-primary">3+ years</strong> managing IT infrastructure 
-                    for 100+ websites and supporting end-users, emphasizing cybersecurity principles to enhance 
-                    performance, reduce risks, and ensure compliance.
-                  </p>
-                  
-                  <p className="font-open-sans text-muted-foreground leading-relaxed">
-                    Skilled in server management, threat detection, and incident response across on-premises 
-                    and cloud environments. Proven in leading teams, streamlining operations, and minimizing 
-                    downtime while supporting innovation.
+                    Infrastructure and security professional with <strong className="text-primary">5+ years</strong> across systems administration, cloud-hosted environments, and production incident response. Hands-on with AWS, Terraform, IAM, and security monitoring across 100+ production websites and fintech payment environments. Building cloud engineering capability and skilled in server management, threat detection, and incident response across on-premises and cloud environments. Proven in leading teams, streamlining operations, and minimizing downtime while supporting innovation.
                   </p>
                 </div>
 
@@ -111,7 +103,7 @@ const About: React.FC = () => {
                     <div className="text-sm text-muted-foreground font-open-sans">Websites Managed</div>
                   </div>
                   <div className="text-center p-4 rounded-2xl bg-card border border-border/20">
-                    <div className="font-bold text-2xl text-primary font-montserrat">3+</div>
+                    <div className="font-bold text-2xl text-primary font-montserrat">5+</div>
                     <div className="text-sm text-muted-foreground font-open-sans">Years Experience</div>
                   </div>
                 </div>
