@@ -897,8 +897,22 @@ rule Zeus_Banking_Trojan {
             </div>
           );
         } else if (line.startsWith('**') && line.endsWith(':**')) {
-          // Bold heading
-          elements.push(<h4 key={index} className="font-semibold text-foreground mt-4 mb-2">{line.slice(2, -3)}</h4>);
+          // Check if it's a heading (only the bold part) or inline bold with text after
+          const colonIndex = line.indexOf(':**');
+          const boldText = line.slice(2, colonIndex);
+          const restOfText = line.slice(colonIndex + 3).trim();
+          
+          if (restOfText) {
+            // Inline bold with text after - render as paragraph with bold span
+            elements.push(
+              <p key={index} className="text-muted-foreground mb-2">
+                <span className="font-semibold text-foreground">{boldText}:</span> {restOfText}
+              </p>
+            );
+          } else {
+            // Bold heading on its own line
+            elements.push(<h4 key={index} className="font-semibold text-foreground mt-4 mb-2">{boldText}</h4>);
+          }
         } else if (line.startsWith('- ')) {
           // List item
           elements.push(<li key={index} className="ml-4 text-muted-foreground">{line.slice(2)}</li>);
