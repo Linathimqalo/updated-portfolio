@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
               Linathi Mqalo
             </h3>
             <p className="font-open-sans text-muted-foreground">
-              Systems Administrator | Web Developer | Cybersecurity Analyst
+              Cloud | Infrastructure | Security | Systems
             </p>
           </div>
 
@@ -81,7 +81,7 @@ const Footer: React.FC = () => {
             className="text-center"
           >
             <p className="font-open-sans text-xs text-muted-foreground/70 italic">
-              "Building secure, scalable, and modern solutions"
+              "Building and securing cloud infrastructure across AWS and Azure"
             </p>
           </motion.div>
         </motion.div>
