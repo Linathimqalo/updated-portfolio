@@ -1,0 +1,249 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Luxury Portfolio Design System */
+
+@layer base {
+  :root {
+    /* Light Mode Colors */
+    --background: 0 0% 100%; /* Pure white */
+    --foreground: 0 0% 9%; /* Pure dark gray instead of slate-900 */
+    
+    --primary: 210 100% 20%; /* Dark blue instead of orange */
+    --primary-foreground: 210 40% 98%; /* light gray */
+    
+    --secondary: 200 100% 15%; /* Dark teal instead of orange */
+    --secondary-foreground: 210 40% 98%; /* light gray */
+    
+    --accent: 235 85% 64%; /* indigo-400 */
+    --accent-foreground: 0 0% 100%; /* white */
+    
+    --muted: 210 40% 96%; /* slate-100 */
+    --muted-foreground: 215 16% 47%; /* slate-600 */
+    
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%; /* Match the main foreground */
+    
+    --border: 214 32% 91%; /* slate-200 */
+    --input: 214 32% 91%;
+    --ring: 210 100% 20%;
+    
+    /* Luxury Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    --gradient-luxury: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--secondary) / 0.05));
+    --gradient-hero: linear-gradient(180deg, transparent, hsl(var(--background) / 0.8));
+    
+    /* Luxury Shadows */
+    --shadow-luxury: 0 20px 50px -12px hsl(var(--primary) / 0.25);
+    --shadow-glow: 0 0 40px hsl(var(--accent) / 0.3);
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--foreground) / 0.1);
+    
+    --radius: 1rem; /* 2xl rounded corners */
+    
+    /* Circuit animation variables */
+    --circuit-primary: hsl(var(--primary) / 0.6);
+    --circuit-secondary: hsl(var(--secondary) / 0.4);
+  }
+
+  .dark {
+    /* Dark Mode - Galaxy Theme */
+    --background: 222 84% 4%; /* Very dark blue-black */
+    --foreground: 210 40% 98%;
+    
+    --primary: 210 100% 20%; /* Same blue as light mode */
+    --primary-foreground: 210 40% 98%;
+    
+    --secondary: 200 100% 15%; /* Same teal as light mode */
+    --secondary-foreground: 210 40% 98%;
+    
+    --accent: 235 85% 64%; /* indigo-400 for dark mode */
+    --accent-foreground: 222 84% 4%;
+    
+    --muted: 215 28% 17%; /* slate-800 */
+    --muted-foreground: 215 20% 65%; /* slate-400 */
+    
+    --card: 222 84% 4%;
+    --card-foreground: 210 40% 98%;
+    
+    --border: 215 28% 17%; /* slate-800 */
+    --input: 215 28% 17%;
+    --ring: 235 85% 64%;
+    
+    /* Dark mode luxury gradients */
+    --gradient-luxury: linear-gradient(135deg, hsl(var(--primary) / 0.2), hsl(var(--secondary) / 0.1));
+    --gradient-hero: linear-gradient(180deg, transparent, hsl(var(--background) / 0.9));
+    
+    /* Galaxy colors */
+    --star-primary: 255 255 255;
+    --star-secondary: 129 140 248;
+    --nebula: hsl(var(--primary) / 0.3);
+  }
+  
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Open Sans', 'Roboto', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', 'Poppins', sans-serif;
+    font-weight: 600;
+  }
+}
+
+@layer components {
+  /* Luxury Animation Classes */
+  .animate-luxury-fade-in {
+    animation: luxury-fade-in 1s ease-out forwards;
+  }
+  
+  .animate-luxury-slide-up {
+    animation: luxury-slide-up 0.8s ease-out forwards;
+  }
+  
+  .animate-luxury-scale {
+    animation: luxury-scale 0.6s ease-out forwards;
+  }
+  
+  /* Circuit Background Animation */
+  .circuit-background {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .circuit-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: 
+      linear-gradient(90deg, transparent, var(--circuit-primary), transparent),
+      linear-gradient(0deg, transparent, var(--circuit-secondary), transparent);
+    animation: circuit-flow 4s linear infinite;
+    opacity: 0.6;
+  }
+  
+  /* Galaxy Background */
+  .galaxy-background {
+    position: relative;
+    background: radial-gradient(ellipse at center, hsl(var(--primary) / 0.1) 0%, hsl(var(--background)) 70%);
+  }
+  
+  .galaxy-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(2px 2px at 20px 30px, white, transparent),
+      radial-gradient(2px 2px at 40px 70px, white, transparent),
+      radial-gradient(1px 1px at 90px 40px, white, transparent),
+      radial-gradient(1px 1px at 130px 80px, white, transparent),
+      radial-gradient(2px 2px at 160px 30px, white, transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: stars-twinkle 3s ease-in-out infinite alternate;
+  }
+  
+  /* Fractal Tree Styles */
+  .fractal-tree {
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+    opacity: 0.3;
+  }
+  
+  /* Luxury Hover Effects */
+  .hover-luxury {
+    @apply transition-all duration-500 ease-out;
+  }
+  
+  .hover-luxury:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-luxury);
+  }
+  
+  /* Glow Effect */
+  .glow-effect {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  /* Elegant Card */
+  .card-elegant {
+    @apply bg-card border border-border/50 rounded-3xl p-8;
+    box-shadow: var(--shadow-elegant);
+    backdrop-filter: blur(10px);
+  }
+}
+
+@layer utilities {
+  /* Custom Animation Keyframes */
+  @keyframes luxury-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes luxury-slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes luxury-scale {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes circuit-flow {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  
+  @keyframes stars-twinkle {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+  }
+  
+  @keyframes shooting-star {
+    0% {
+      transform: translateX(-100vw) translateY(100vh);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100vw) translateY(-100vh);
+      opacity: 0;
+    }
+  }
+}
