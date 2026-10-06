@@ -20,15 +20,40 @@ const Experience: React.FC = () => {
 
   const experiences: ExperienceItem[] = [
     {
+      id: "figment-design-labs",
+      title: "Technical Support Specialist",
+      company: "Figment Design Labs",
+      period: "April 2026 – Present",
+      location: "Johannesburg, South Africa",
+      highlights: [
+        "Provide first- and second-line technical support for payment and fintech systems, investigating system, connectivity, transaction and application-related issues",
+        "Monitor system and site availability, identify incidents and coordinate escalation to internal and external technical teams through to resolution",
+        "Troubleshoot issues involving POS systems, payment devices, network connectivity and integrated services in production environments",
+        "Support onsite technicians with remote troubleshooting, technical investigation and ad-hoc onsite assistance where required",
+        "Provide internal IT support covering systems administration, networking and technical infrastructure",
+        "Handle 10+ support tickets daily / 90+ monthly, prioritising incidents according to business impact and operational requirements",
+        "Work within environments where PCI DSS and payment-system reliability are key operational considerations",
+        "Build understanding of custom-built fintech platforms, their dependencies and the interaction between hardware, networking, applications and payment services"
+      ],
+      detailedDescription: "Provide first- and second-line technical support for payment and fintech systems across 2,600+ merchants in a PCI DSS-regulated environment. Investigate system, connectivity, transaction, and application issues. Monitor availability, escalate incidents, and support onsite technicians with remote troubleshooting.",
+      achievements: [
+        "Maintained high availability across 2,600+ merchant locations",
+        "Reduced average incident resolution time through efficient triage and escalation processes",
+        "Developed comprehensive documentation for fintech platform troubleshooting",
+        "Collaborated effectively with cross-functional teams to resolve complex payment system issues"
+      ],
+      technologies: ["PCI DSS", "POS Systems", "Payment Processing", "Network Troubleshooting", "Incident Management", "Fintech Platforms"]
+    },
+    {
       id: "bemysocial",
       title: "Systems Administrator",
       company: "BeMySocial",
-      period: "Feb 2024 – Present",
+      period: "Feb 2024 – March 2026",
       location: "Remote, United Kingdom",
       highlights: [
         "Managing infrastructure for 100+ client websites with 99.9% uptime",
         "Implementing cybersecurity protocols reducing security incidents by 75%",
-        "Led a team of 5 technical specialists in infrastructure optimization",
+        "Coordinated a cross-functional team of 5 (design, development, client liaison) to absorb workload after the sole developer departed, covering infrastructure, design, and client-facing responsibilities",
         "Automated backup and recovery processes improving efficiency by 60%"
       ],
       detailedDescription: "Leading comprehensive IT infrastructure management for a growing digital agency serving 100+ clients. Responsible for maintaining high availability, implementing security best practices, and ensuring optimal performance across diverse web environments.",

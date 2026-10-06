@@ -20,6 +20,16 @@ interface Project {
 const Projects: React.FC = () => {
   const projects: Project[] = [
     {
+      id: "aws-storage-platform",
+      title: "AWS Storage Platform",
+      description: "Progressive AWS engineering project built in a local AWS emulator (Floci). Each phase adds a layer: manual CLI provisioning → Terraform automation → security controls (least-privilege IAM, bucket policies) → operations and detection.",
+      longDescription: "Progressive AWS engineering project built in a local AWS emulator (Floci). Each phase adds a layer: manual CLI provisioning → Terraform automation → security controls (least-privilege IAM, bucket policies) → operations and detection.",
+      technologies: ["AWS CLI", "Terraform", "IAM", "S3", "Cloud Security"],
+      githubUrl: "https://github.com/Linathimqalo/aws-storage-platform",
+      category: "Cloud Engineering",
+      featured: true
+    },
+    {
       id: "cloud-honeypot-analysis",
       title: "Comparative Cloud Honeypot Analysis",
       description: "Enterprise-grade honeypot system for threat intelligence and attack pattern analysis comparing GCP vs Azure deployments.",
@@ -46,9 +56,8 @@ const Projects: React.FC = () => {
       longDescription: "Designed and built a full-stack portfolio platform inspired by Apple, Tesla, and Medium aesthetics. Implemented Supabase backend with authentication, RLS policies, and storage buckets for user-generated content. Delivered CRUD functionality for projects, docs, blog posts, and certifications. Added dark/light modes, customizable color themes, and a sleek premium UI with advanced typography and spacing. The result is a production-ready portfolio app with a modern, elegant user experience.",
       technologies: ["Next.js", "TypeScript", "Supabase", "TailwindCSS", "ShadCN UI", "Framer Motion"],
       githubUrl: "https://github.com/Linathimqalo/velvet-ink-forge",
-      liveUrl: "https://aureum-omega.vercel.app/",
       category: "Full-Stack Development",
-      featured: true
+      featured: false
     },
     {
       id: "siem-soc-lab",
@@ -77,9 +86,8 @@ const Projects: React.FC = () => {
       longDescription: "Built a comprehensive personal finance management platform using Supabase and Lovable AI. The application features secure authentication, row-level security policies, and multi-currency support. Users can manage transactions, budgets, financial goals, debts, and investments with full CRUD functionality. Added a dynamic dashboard with real-time insights, interactive reports, and customizable user settings. Integrated investment tracking with live asset pricing APIs and designed a responsive, modern UI with TailwindCSS and glassmorphism effects.",
       technologies: ["React", "TypeScript", "Supabase", "TailwindCSS", "Lovable", "PostgreSQL", "REST APIs"],
       githubUrl: "https://github.com/Linathimqalo/lumin-wealth",
-      liveUrl: "https://finora-gold.vercel.app/",
       category: "Finance",    
-      featured: true
+      featured: false
     },
     {
       id: "deloitte-simulation",
@@ -234,6 +242,15 @@ const Projects: React.FC = () => {
                         </Button>
                       )}
                 </div>
+
+                {/* GitHub Only Label */}
+                {!project.liveUrl && project.githubUrl !== "#" && (
+                  <div className="mt-3">
+                    <span className="text-xs text-muted-foreground italic">
+                      GitHub only
+                    </span>
+                  </div>
+                )}
 
                 {/* Hover Effect */}
                 <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-300 pointer-events-none" />
