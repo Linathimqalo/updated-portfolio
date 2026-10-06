@@ -22,9 +22,9 @@ const Projects: React.FC = () => {
     {
       id: "aws-storage-platform",
       title: "AWS Storage Platform",
-      description: "Progressive AWS engineering project built in a local AWS emulator (Floci). Each phase adds a layer: manual CLI provisioning → Terraform automation → security controls (least-privilege IAM, bucket policies) → operations and detection.",
-      longDescription: "Progressive AWS engineering project built in a local AWS emulator (Floci). Each phase adds a layer: manual CLI provisioning → Terraform automation → security controls (least-privilege IAM, bucket policies) → operations and detection.",
-      technologies: ["AWS CLI", "Terraform", "IAM", "S3", "Cloud Security"],
+      description: "Four-phase AWS engineering project built in a local emulator. Progressive build: CLI fundamentals → Terraform automation → security controls → detection and incident response. Fully Terraform-managed with automated auditing, remote state, and a documented incident-response workflow.",
+      longDescription: "Four-phase AWS engineering project built in a local emulator. Progressive build: CLI fundamentals → Terraform automation → security controls → detection and incident response. Fully Terraform-managed with automated auditing, remote state, and a documented incident-response workflow.",
+      technologies: ["AWS CLI", "Terraform", "IAM", "S3", "KMS", "Detection Engineering"],
       githubUrl: "https://github.com/Linathimqalo/aws-storage-platform",
       category: "Cloud Engineering",
       featured: true
@@ -244,7 +244,7 @@ const Projects: React.FC = () => {
                 </div>
 
                 {/* GitHub Only Label */}
-                {!project.liveUrl && project.githubUrl !== "#" && (
+                {!project.liveUrl && project.githubUrl !== "#" && project.id !== "aws-storage-platform" && (
                   <div className="mt-3">
                     <span className="text-xs text-muted-foreground italic">
                       GitHub only
