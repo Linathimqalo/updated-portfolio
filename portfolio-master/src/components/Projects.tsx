@@ -30,6 +30,16 @@ const Projects: React.FC = () => {
       featured: true
     },
     {
+      id: "aws-vpc-network-security",
+      title: "AWS VPC Network Security",
+      description: "Three-tier VPC design with defence-in-depth network controls, built in Floci and managed with Terraform. Public, private-app, and private-data tiers with routing isolation, security groups, NACLs, and VPC Flow Logs. Includes misconfiguration drill, detection engineering, and dual-path remediation.",
+      longDescription: "Three-tier VPC design with defence-in-depth network controls, built in Floci and managed with Terraform. Public, private-app, and private-data tiers with routing isolation, security groups, NACLs, and VPC Flow Logs. Includes misconfiguration drill, detection engineering, and dual-path remediation.",
+      technologies: ["AWS VPC", "Terraform", "Security Groups", "NACLs", "Flow Logs", "Network Security"],
+      githubUrl: "https://github.com/Linathimqalo/aws-storage-platform",
+      category: "Cloud Engineering",
+      featured: true
+    },
+    {
       id: "cloud-honeypot-analysis",
       title: "Comparative Cloud Honeypot Analysis",
       description: "Enterprise-grade honeypot system for threat intelligence and attack pattern analysis comparing GCP vs Azure deployments.",
