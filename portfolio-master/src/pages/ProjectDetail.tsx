@@ -13,7 +13,7 @@ const ProjectDetail: React.FC = () => {
 
   const projectData: Record<string, any> = {
     'aws-storage-platform': {
-      title: 'AWS Storage Platform — Progressive Cloud Engineering and Detection Case Study',
+      title: 'AWS Storage Platform - Progressive Cloud Engineering and Detection Case Study',
       date: '6 October 2026',
       github: 'https://github.com/Linathimqalo/aws-storage-platform',
       technologies: ['AWS CLI', 'Terraform', 'IAM', 'S3', 'KMS', 'Detection Engineering', 'Incident Response'],
@@ -24,7 +24,7 @@ const ProjectDetail: React.FC = () => {
 
 The environment manages five S3 buckets, a KMS encryption key, and a least-privilege IAM user, all under Terraform control with remote state. A custom Bash audit script checks every bucket for public exposure, writes structured JSON reports, and exits non-zero when findings exist.
 
-The most valuable part of the project was not the infrastructure. It was what happened when I deliberately broke it. After applying Block Public Access, SSE-KMS encryption, and explicit Deny policies to every bucket, I disabled one bucket's controls and added a public policy to see whether my detection would catch it. It caught the Block Public Access drift. It missed the public policy entirely — a bug in my own audit script.
+The most valuable part of the project was not the infrastructure. It was what happened when I deliberately broke it. After applying Block Public Access, SSE-KMS encryption, and explicit Deny policies to every bucket, I disabled one bucket's controls and added a public policy to see whether my detection would catch it. It caught the Block Public Access drift. It missed the public policy entirely - a bug in my own audit script.
 
 Fixing that bug taught more about detection engineering than any tutorial. A detector that fails silently is worse than no detector at all.`
         },
@@ -46,7 +46,7 @@ Fixing that bug taught more about detection engineering than any tutorial. A det
         {
           title: 'Environment and Tooling',
           content: [
-            '**AWS Emulator:** Floci — runs locally in Docker, exposes the S3, IAM, KMS, and STS APIs on localhost:4566',
+            '**AWS Emulator:** Floci - runs locally in Docker, exposes the S3, IAM, KMS, and STS APIs on localhost:4566',
             '',
             '**CLI:** AWS CLI v2',
             '',
@@ -58,20 +58,20 @@ Fixing that bug taught more about detection engineering than any tutorial. A det
             '',
             '**State:** S3 remote backend (terraform-state-storage)',
             '',
-            'Floci was chosen for cost and safety. Real AWS would incur charges, and — more importantly — the misconfiguration drill in Phase 3 would be dangerous against a live account. Running locally means breaking things on purpose carries no risk.',
+            'Floci was chosen for cost and safety. Real AWS would incur charges, and - more importantly - the misconfiguration drill in Phase 3 would be dangerous against a live account. Running locally means breaking things on purpose carries no risk.',
             '',
             'The patterns learned (Terraform structure, IAM least privilege, S3 security controls, detection design) translate directly to real AWS. The only differences are in the emulator\'s quirks and the endpoints override.'
           ]
         },
         {
-          title: 'Phase 1 — CLI Fundamentals',
+          title: 'Phase 1 - CLI Fundamentals',
           content: [
-            'Phase 1 established the basics: creating IAM users, creating S3 buckets, uploading objects, and inspecting ACLs and metadata. Every command\'s output was saved to a file as evidence — the same practice a security engineer follows during an audit.',
+            'Phase 1 established the basics: creating IAM users, creating S3 buckets, uploading objects, and inspecting ACLs and metadata. Every command\'s output was saved to a file as evidence - the same practice a security engineer follows during an audit.',
             '',
             '**Key commands and what they taught:**',
             '',
             '```bash',
-            '# Establish identity — always the first command in a session',
+            '# Establish identity - always the first command in a session',
             'aws sts get-caller-identity',
             '',
             '# Create an identity',
@@ -92,15 +92,15 @@ Fixing that bug taught more about detection engineering than any tutorial. A det
             '',
             'Several command mistakes taught naming conventions: list-users is plural because it returns a list; get-bucket-acl is singular because it acts on one bucket. The AWS CLI uses this distinction consistently.',
             '',
-            '**Findings from Phase 1:** Fresh buckets show only the owner with FULL_CONTROL and no public grants. This is the correct baseline. Default encryption is AWS-managed AES256 — no customer-managed KMS key.'
+            '**Findings from Phase 1:** Fresh buckets show only the owner with FULL_CONTROL and no public grants. This is the correct baseline. Default encryption is AWS-managed AES256 - no customer-managed KMS key.'
           ]
         },
         {
-          title: 'Phase 2 — Terraform Automation',
+          title: 'Phase 2 - Terraform Automation',
           content: [
             'Phase 2 rebuilt the Phase 1 environment declaratively. The shift from imperative ("do this now") to declarative ("this is what I want to exist") is more significant than it first appears.',
             '',
-            'Terraform tracks state. It knows what it created, and it detects when reality diverges. This is the property that makes it safe to use at scale — no accidental duplicates, no forgotten resources.',
+            'Terraform tracks state. It knows what it created, and it detects when reality diverges. This is the property that makes it safe to use at scale - no accidental duplicates, no forgotten resources.',
             '',
             '**The core configuration:**',
             '',
@@ -126,15 +126,15 @@ Fixing that bug taught more about detection engineering than any tutorial. A det
             '}',
             '```',
             '',
-            'The endpoints block redirects every API call to Floci — the same mechanism the CLI uses via AWS_ENDPOINT_URL. The s3_use_path_style setting tells Terraform to use localhost:4566/bucket instead of bucket.s3.amazonaws.com, matching the emulator\'s expectations.',
+            'The endpoints block redirects every API call to Floci - the same mechanism the CLI uses via AWS_ENDPOINT_URL. The s3_use_path_style setting tells Terraform to use localhost:4566/bucket instead of bucket.s3.amazonaws.com, matching the emulator\'s expectations.',
             '',
-            'Two buckets were created (terraform-managed-lab and terraform-managed-backup), both driven by variables. The state file tracks what Terraform manages — and it must never be committed to Git because it can contain sensitive values.',
+            'Two buckets were created (terraform-managed-lab and terraform-managed-backup), both driven by variables. The state file tracks what Terraform manages - and it must never be committed to Git because it can contain sensitive values.',
             '',
             '**Key lesson:** Idempotency. After a successful apply, running plan again shows No changes. Terraform compares config, state, and reality; if they match, it does nothing. This is why infrastructure-as-code is safer than manual commands.'
           ]
         },
         {
-          title: 'Phase 3 — Security Controls',
+          title: 'Phase 3 - Security Controls',
           content: [
             'Phase 3 applied the security controls that every production S3 bucket should have. Four layers, applied through Terraform:',
             '',
@@ -207,21 +207,21 @@ Fixing that bug taught more about detection engineering than any tutorial. A det
             '}',
             '```',
             '',
-            'Explicit Deny always wins over Allow. It\'s the last line of defense — even if someone accidentally adds a public Allow policy, this Deny blocks it.',
+            'Explicit Deny always wins over Allow. It\'s the last line of defense - even if someone accidentally adds a public Allow policy, this Deny blocks it.',
             '',
             '**5. Least-privilege IAM user:**',
             '',
             'The audit-reader user receives only s3:ListBucket and s3:GetObject, scoped to two specific buckets. No write, no delete, no bucket creation. This is what least privilege looks like in practice.',
             '',
-            '**Adopting existing resources:** Phase 3 required terraform import to adopt buckets created by hand in Phase 1. The problem is common — teams introducing IaC into an existing environment face it constantly. Import attaches a real resource to a declared config address; Terraform then manages it like any other resource.'
+            '**Adopting existing resources:** Phase 3 required terraform import to adopt buckets created by hand in Phase 1. The problem is common - teams introducing IaC into an existing environment face it constantly. Import attaches a real resource to a declared config address; Terraform then manages it like any other resource.'
           ]
         },
         {
-          title: 'Phase 4 — Operations and Detection',
+          title: 'Phase 4 - Operations and Detection',
           content: [
             'Phase 4 fixed a bug in the audit script, restructured the repository, imported the remaining legacy buckets into Terraform, and moved state to S3.',
             '',
-            '**The audit script.** It iterates every bucket and checks two things: whether Block Public Access is enabled (all four settings), and whether any bucket policy contains Effect: "Allow" with a wildcard Principal. Findings are written to a timestamped JSON report, a rolling log is appended, and the script exits non-zero when findings exist — so CI systems can fail on it.',
+            '**The audit script.** It iterates every bucket and checks two things: whether Block Public Access is enabled (all four settings), and whether any bucket policy contains Effect: "Allow" with a wildcard Principal. Findings are written to a timestamped JSON report, a rolling log is appended, and the script exits non-zero when findings exist - so CI systems can fail on it.',
             '',
             '**The policy check, correctly written:**',
             '',
@@ -235,7 +235,7 @@ Fixing that bug taught more about detection engineering than any tutorial. A det
             'fi',
             '```',
             '',
-            'The original version used a grep pattern that didn\'t match the actual output format. The rewrite with jq parses JSON structurally — no escaping ambiguity, no false negatives.',
+            'The original version used a grep pattern that didn\'t match the actual output format. The rewrite with jq parses JSON structurally - no escaping ambiguity, no false negatives.',
             '',
             '**Remote state.** State was moved from a local file to S3:',
             '',
@@ -250,7 +250,7 @@ Fixing that bug taught more about detection engineering than any tutorial. A det
             '}',
             '```',
             '',
-            'Remote state prevents loss if a laptop dies, and enables team collaboration. Credentials are externalised — the backend config is gitignored, with a template provided for reference.',
+            'Remote state prevents loss if a laptop dies, and enables team collaboration. Credentials are externalised - the backend config is gitignored, with a template provided for reference.',
             '',
             '**The final audit:** Six buckets, zero findings. Every bucket managed by Terraform, all with Block Public Access enabled, no public policies.'
           ]
@@ -260,7 +260,7 @@ Fixing that bug taught more about detection engineering than any tutorial. A det
           content: [
             '**This is the part of the project that taught the most.**',
             '',
-            'After Phase 4, the environment was clean. Every bucket was secured. The audit reported zero findings. In a real engineering context, that\'s where many projects stop — "it works, ship it."',
+            'After Phase 4, the environment was clean. Every bucket was secured. The audit reported zero findings. In a real engineering context, that\'s where many projects stop - "it works, ship it."',
             '',
             'I broke it on purpose.',
             '',
@@ -300,9 +300,9 @@ Fixing that bug taught more about detection engineering than any tutorial. A det
             '',
             'This is not a Terraform failure. It\'s a fundamental property of declarative IaC: the tool manages what you tell it to manage. Everything else requires independent detection.',
             '',
-            '**What the audit script caught — and didn\'t.** The Phase 3 audit script ran against the broken bucket. It correctly flagged the four disabled Block Public Access settings. It did not flag the public policy.',
+            '**What the audit script caught - and didn\'t.** The Phase 3 audit script ran against the broken bucket. It correctly flagged the four disabled Block Public Access settings. It did not flag the public policy.',
             '',
-            'The grep pattern in the script was looking for escaped JSON quotes in a specific format. The actual output of aws s3api get-bucket-policy didn\'t match. This was a silent false negative — the script reported "fine" when the bucket was exposed.',
+            'The grep pattern in the script was looking for escaped JSON quotes in a specific format. The actual output of aws s3api get-bucket-policy didn\'t match. This was a silent false negative - the script reported "fine" when the bucket was exposed.',
             '',
             'That bug was the reason Phase 4 exists.',
             '',
@@ -316,9 +316,9 @@ Fixing that bug taught more about detection engineering than any tutorial. A det
             '',
             'A detector that fails silently is worse than no detector, because it creates false confidence. The bucket looked safe. The script said it was safe. But the script was broken.',
             '',
-            'This is a known problem in security engineering — detection content is software, and software has bugs. Mature teams test their detectors against both positive cases (a misconfiguration that should be caught) and negative cases (a correct configuration that should not be flagged). Anything less produces noise on one side and silence on the other.',
+            'This is a known problem in security engineering - detection content is software, and software has bugs. Mature teams test their detectors against both positive cases (a misconfiguration that should be caught) and negative cases (a correct configuration that should not be flagged). Anything less produces noise on one side and silence on the other.',
             '',
-            'The lesson generalises beyond this project. Every automated check — Config rules, GuardDuty findings, custom Lambda detectors, dashboards — needs the same discipline. The check that catches 99% of cases but fails on the one that matters is not a control. It\'s a comfort blanket.'
+            'The lesson generalises beyond this project. Every automated check - Config rules, GuardDuty findings, custom Lambda detectors, dashboards - needs the same discipline. The check that catches 99% of cases but fails on the one that matters is not a control. It\'s a comfort blanket.'
           ]
         },
         {
@@ -326,7 +326,7 @@ Fixing that bug taught more about detection engineering than any tutorial. A det
           content: [
             '**1. Test the audit script from day one.** The bug existed for a full phase. In a real environment, that\'s a window during which exposure could go undetected. The script should have been tested against a known-bad bucket the moment it was written.',
             '',
-            '**2. Use Terraform modules earlier.** The module refactor in Phase 5B reduced ~25 resource blocks to five module calls. That structure should have been in place from Phase 2 — copying config between phases led to a missing-resource error that cost time.',
+            '**2. Use Terraform modules earlier.** The module refactor in Phase 5B reduced ~25 resource blocks to five module calls. That structure should have been in place from Phase 2 - copying config between phases led to a missing-resource error that cost time.',
             '',
             '**3. Separate detection from remediation more clearly.** In production, detection runs on a schedule and independently of the infrastructure it checks. Tying detection to the same repo as infrastructure makes sense for learning, but production would deploy it separately.',
             '',
@@ -360,16 +360,16 @@ Fixing that bug taught more about detection engineering than any tutorial. A det
       ]
     },
     'aws-vpc-network-security': {
-      title: 'AWS VPC Network Security — Case Study',
+      title: 'AWS VPC Network Security - Case Study',
       date: '10 October 2026',
       github: 'https://github.com/Linathimqalo/aws-storage-platform',
       technologies: ['AWS VPC', 'Terraform', 'Security Groups', 'NACLs', 'Flow Logs', 'Network Security'],
       sections: [
         {
           title: 'Executive Summary',
-          content: `This project documents the design and build of a three-tier VPC in AWS, with layered network security controls — routing isolation, security groups, network ACLs, and VPC Flow Logs — all managed declaratively through Terraform.
+          content: `This project documents the design and build of a three-tier VPC in AWS, with layered network security controls - routing isolation, security groups, network ACLs, and VPC Flow Logs - all managed declaratively through Terraform.
 
-The environment segments resources into public, private-application, and private-data tiers. Each tier has a distinct routing profile and its own firewall controls. Tier-to-tier access is identity-based (security group references), not IP-based. The data tier has no internet route at all — the network-layer equivalent of physically isolating the database.
+The environment segments resources into public, private-application, and private-data tiers. Each tier has a distinct routing profile and its own firewall controls. Tier-to-tier access is identity-based (security group references), not IP-based. The data tier has no internet route at all - the network-layer equivalent of physically isolating the database.
 
 After building the secure baseline, I deliberately introduced three misconfigurations to test detection:
 
@@ -379,7 +379,7 @@ Opened PostgreSQL (port 5432) on the data security group to the internet
 
 Replaced the data NACL\'s app-subnet CIDR rule with 0.0.0.0/0
 
-A custom Bash audit script detected all three. Remediation was done two ways — first via CLI for speed, then via terraform apply to restore declarative state. The environment returned to 0 findings, and terraform plan returned "No changes."
+A custom Bash audit script detected all three. Remediation was done two ways - first via CLI for speed, then via terraform apply to restore declarative state. The environment returned to 0 findings, and terraform plan returned "No changes."
 
 The project demonstrates the full network security lifecycle: design → build → harden → break → detect → remediate → verify.`
         },
@@ -406,11 +406,11 @@ The project demonstrates the full network security lifecycle: design → build �
             '',
             '**Why three tiers:**',
             '',
-            '**Public** — resources that must be reachable from the internet. Load balancers, bastion hosts. Minimal surface — only the ports that need to be open are open.',
+            '**Public** - resources that must be reachable from the internet. Load balancers, bastion hosts. Minimal surface - only the ports that need to be open are open.',
             '',
-            '**Private App** — application servers. They need outbound internet (package updates, API calls), but shouldn\'t be reachable inbound.',
+            '**Private App** - application servers. They need outbound internet (package updates, API calls), but shouldn\'t be reachable inbound.',
             '',
-            '**Private Data** — databases. No internet access in any direction. Reachable only from the application tier.',
+            '**Private Data** - databases. No internet access in any direction. Reachable only from the application tier.',
             '',
             'This is standard AWS architecture. It shows up in almost every production environment, and it\'s asked about in interviews.'
           ]
@@ -422,9 +422,9 @@ The project demonstrates the full network security lifecycle: design → build �
             '',
             'The public and private labels in AWS are informal. A subnet is "public" if and only if its route table has a route to an Internet Gateway.',
             '',
-            'The subnets themselves have different flags — map_public_ip_on_launch is true for the public subnet and false for the private subnets — but that flag is a convenience, not the definition. If you attach a route to an IGW to a subnet whose instances don\'t have public IPs, those instances still aren\'t reachable — but any instances you later assign public IPs to would be. And if a subnet has no route to the IGW, public IPs assigned to instances do nothing.',
+            'The subnets themselves have different flags - map_public_ip_on_launch is true for the public subnet and false for the private subnets - but that flag is a convenience, not the definition. If you attach a route to an IGW to a subnet whose instances don\'t have public IPs, those instances still aren\'t reachable - but any instances you later assign public IPs to would be. And if a subnet has no route to the IGW, public IPs assigned to instances do nothing.',
             '',
-            'Why this matters: Misunderstanding the mechanism is a common source of exposures. "I set it to private" often means "I didn\'t map public IPs on launch" — which is not the same as "no internet access." The route table is the actual control.',
+            'Why this matters: Misunderstanding the mechanism is a common source of exposures. "I set it to private" often means "I didn\'t map public IPs on launch" - which is not the same as "no internet access." The route table is the actual control.',
             '',
             '**Decision 2: The data tier has no default route**',
             '',
@@ -437,7 +437,7 @@ The project demonstrates the full network security lifecycle: design → build �
             '',
             'Traffic to anywhere outside the VPC has no route in the data subnet. It\'s dropped at the routing layer, before any firewall would even need to evaluate it.',
             '',
-            'Why this is powerful: Even if every security group and NACL in the data tier was misconfigured to allow all traffic, the routing table would still prevent internet connectivity. Defence in depth starts at the routing layer. It\'s the cheapest, most reliable control — because it can\'t be "opened accidentally" by changing a port number. You have to deliberately add a route.',
+            'Why this is powerful: Even if every security group and NACL in the data tier was misconfigured to allow all traffic, the routing table would still prevent internet connectivity. Defence in depth starts at the routing layer. It\'s the cheapest, most reliable control - because it can\'t be "opened accidentally" by changing a port number. You have to deliberately add a route.',
             '',
             'Interview-grade insight: When someone asks "how do you prevent a database from reaching the internet?" the answer isn\'t "put it in a private subnet." The answer is: no default route. Subnet names are cosmetic; the routing table is enforcement.',
             '',
@@ -499,7 +499,7 @@ The project demonstrates the full network security lifecycle: design → build �
             '',
             'Databases don\'t initiate connections. They respond to them. Removing egress rules entirely is a security control: even if an attacker gains code execution on the database, it can\'t reach out.',
             '',
-            'The layered effect: Combined with the no-route decision above, the data tier has two independent controls preventing outbound connections — the routing table and the SG. Both must be bypassed to allow exfiltration.'
+            'The layered effect: Combined with the no-route decision above, the data tier has two independent controls preventing outbound connections - the routing table and the SG. Both must be bypassed to allow exfiltration.'
           ]
         },
         {
@@ -519,7 +519,7 @@ The project demonstrates the full network security lifecycle: design → build �
             '',
             'What this does: Adds a rule to public-sg allowing SSH from any IP on the internet.',
             '',
-            'Why it matters: This is the single most-scanned AWS misconfiguration. Automated scanners find open SSH within minutes of exposure and attempt brute-force. The Phase 3 (Storage) project covered this same class of exposure with S3. It recurs here because it\'s the same underlying mistake — a default-safe configuration accidentally opened up.',
+            'Why it matters: This is the single most-scanned AWS misconfiguration. Automated scanners find open SSH within minutes of exposure and attempt brute-force. The Phase 3 (Storage) project covered this same class of exposure with S3. It recurs here because it\'s the same underlying mistake - a default-safe configuration accidentally opened up.',
             '',
             'The correct baseline: The public-sg config declares SSH from 10.0.0.0/16 (the VPC CIDR, a placeholder for a real bastion/VPN source). Opening it to 0.0.0.0/0 is the misconfiguration.',
             '',
@@ -537,7 +537,7 @@ The project demonstrates the full network security lifecycle: design → build �
             '',
             'Why it matters: This bypasses the entire tiered architecture. The database is now reachable from the internet, regardless of the routing design or the NACL. The security group was the last line of defence, and it\'s been opened.',
             '',
-            'This is the scenario the whole design exists to prevent. Seeing it get through one layer — while the NACL still blocks — demonstrates why defence in depth matters.',
+            'This is the scenario the whole design exists to prevent. Seeing it get through one layer - while the NACL still blocks - demonstrates why defence in depth matters.',
             '',
             '**Break 3: The NACL rule replaced**',
             '',
@@ -554,7 +554,7 @@ The project demonstrates the full network security lifecycle: design → build �
             '',
             'What this does: Replaces the existing NACL rule that allowed PostgreSQL from the app subnet CIDR (10.0.10.0/24) with a version that allows it from anywhere.',
             '',
-            'Why it matters: With this change, both the security group and the NACL on the data tier allow internet access. Now nothing but the routing table — no default route — prevents the database from being reached. And the routing table doesn\'t help for inbound connections, only outbound.',
+            'Why it matters: With this change, both the security group and the NACL on the data tier allow internet access. Now nothing but the routing table - no default route - prevents the database from being reached. And the routing table doesn\'t help for inbound connections, only outbound.',
             '',
             'The lesson: This is the difference between "the security group was misconfigured" and "both controls failed." A single misconfiguration is recoverable. Two simultaneous failures are how real incidents happen.'
           ]
@@ -592,13 +592,13 @@ The project demonstrates the full network security lifecycle: design → build �
             'done',
             '```',
             '',
-            'Why jq, not JMESPath: The initial version used --query with nested JMESPath filters. The pattern SecurityGroups[0].IpPermissions[?FromPort<=`22`].IpRanges[?CidrIp==\'0.0.0.0/0\']returned[]` even when matching rules existed. Testing confirmed Floci\'s implementation of nested JMESPath filters was incomplete — one level of filtering worked, two didn\'t.',
+            'Why jq, not JMESPath: The initial version used --query with nested JMESPath filters. The pattern SecurityGroups[0].IpPermissions[?FromPort<=`22`].IpRanges[?CidrIp==\'0.0.0.0/0\']returned[]` even when matching rules existed. Testing confirmed Floci\'s implementation of nested JMESPath filters was incomplete - one level of filtering worked, two didn\'t.',
             '',
             'Switching to --output json | jq fixed it immediately. jq processes JSON structurally. It doesn\'t care about the source.',
             '',
-            'Real-world takeaway: --query is fine for simple field extraction. Anything beyond that — nested filters, conditional expressions, complex arrays — is more reliable with jq. This is a portability pattern, not just a Floci quirk.',
+            'Real-world takeaway: --query is fine for simple field extraction. Anything beyond that - nested filters, conditional expressions, complex arrays - is more reliable with jq. This is a portability pattern, not just a Floci quirk.',
             '',
-            '**The NACL check — and its first false positive**',
+            '**The NACL check - and its first false positive**',
             '',
             'The first version of the NACL check had a bug that the drill exposed. It flagged public-nacl for having ports 3389, 3306, 5432, 1433, 27017, 6379, and 9200 all "open to 0.0.0.0/0."',
             '',
@@ -630,7 +630,7 @@ The project demonstrates the full network security lifecycle: design → build �
           content: [
             'Two paths were demonstrated, and both matter in real incident response.',
             '',
-            '**Path A: CLI — immediate containment**',
+            '**Path A: CLI - immediate containment**',
             '',
             '```bash',
             'aws ec2 revoke-security-group-ingress \\',
@@ -657,16 +657,16 @@ The project demonstrates the full network security lifecycle: design → build �
             '',
             'When to use: Active incident. Every second of exposure matters. CLI is immediate.',
             '',
-            'What it doesn\'t do: Reconcile Terraform state. Terraform still thinks the wrong rules exist. This matters if a subsequent terraform apply runs — it might try to re-apply something you didn\'t intend, or produce a confusing drift report.',
+            'What it doesn\'t do: Reconcile Terraform state. Terraform still thinks the wrong rules exist. This matters if a subsequent terraform apply runs - it might try to re-apply something you didn\'t intend, or produce a confusing drift report.',
             '',
-            '**Path B: Terraform — declarative reconciliation**',
+            '**Path B: Terraform - declarative reconciliation**',
             '',
             '```bash',
             'cd phase-4-vpc-security',
             'terraform apply',
             '```',
             '',
-            'What this does: Restores the environment to exactly what the config declares. Also fixes the smaller drifts the CLI fix missed — in this case, a tag on the Flow Log resource that had fallen out of sync.',
+            'What this does: Restores the environment to exactly what the config declares. Also fixes the smaller drifts the CLI fix missed - in this case, a tag on the Flow Log resource that had fallen out of sync.',
             '',
             'When to use: After containing the immediate issue. This is the "make reality match config" step.',
             '',
@@ -694,11 +694,11 @@ The project demonstrates the full network security lifecycle: design → build �
             '',
             'The data tier had three independent protections:',
             '',
-            'Routing — no default route to the internet',
+            'Routing - no default route to the internet',
             '',
-            'NACL — only the app subnet CIDR can reach it',
+            'NACL - only the app subnet CIDR can reach it',
             '',
-            'Security group — only the app SG can reach it, no egress',
+            'Security group - only the app SG can reach it, no egress',
             '',
             'Any single one failing should not result in exposure. The misconfiguration drill proved this: even after breaking the SG and the NACL simultaneously, the absence of a route still meant the database couldn\'t reach the internet. The path to compromise required all three to fail.',
             '',
@@ -706,9 +706,9 @@ The project demonstrates the full network security lifecycle: design → build �
             '',
             'Nested JMESPath filters via --query behaved inconsistently against Floci. jq did not. The portability rule:',
             '',
-            'Simple field extraction — --query is fine',
+            'Simple field extraction - --query is fine',
             '',
-            'Nested filters, conditional logic, complex structures — jq',
+            'Nested filters, conditional logic, complex structures - jq',
             '',
             'This isn\'t a Floci quirk. It\'s a portability pattern that applies against real AWS too, where service-specific query implementations differ subtly. jq is deterministic.',
             '',
@@ -720,23 +720,23 @@ The project demonstrates the full network security lifecycle: design → build �
             '',
             'Test detection against a known-bad case, not just a clean one.',
             '',
-            'Understand what "normal" looks like for the thing you\'re detecting — otherwise you flag everything.',
+            'Understand what "normal" looks like for the thing you\'re detecting - otherwise you flag everything.',
             '',
-            '**Lesson 4: Stateless vs stateful — the ephemeral port trap**',
+            '**Lesson 4: Stateless vs stateful - the ephemeral port trap**',
             '',
             'NACLs are stateless. Security groups are stateful. Concretely:',
             '',
             'SG: Allow port 443 inbound. Return traffic is automatic.',
             '',
-            'NACL: Allow port 443 inbound. Return traffic needs its own rule — a rule for the ephemeral port range (typically 1024–65535) inbound.',
+            'NACL: Allow port 443 inbound. Return traffic needs its own rule - a rule for the ephemeral port range (typically 1024–65535) inbound.',
             '',
-            'Every NACL that allows outbound connections needs matching inbound ephemeral rules. Forgetting this is why NACLs "sometimes work and sometimes don\'t" — the connection establishes but the response gets dropped.',
+            'Every NACL that allows outbound connections needs matching inbound ephemeral rules. Forgetting this is why NACLs "sometimes work and sometimes don\'t" - the connection establishes but the response gets dropped.',
             '',
             '**Lesson 5: The routing table is the strongest control**',
             '',
-            'A route is a deliberate act. A security group rule is often a matter of changing a number. A NACL rule is often inherited from a template. But a route — you have to add it. It\'s hard to add by accident.',
+            'A route is a deliberate act. A security group rule is often a matter of changing a number. A NACL rule is often inherited from a template. But a route - you have to add it. It\'s hard to add by accident.',
             '',
-            'This makes the routing table the most reliable layer of defence. Build the network so that the default state is "no path" — then add paths only where they\'re needed.',
+            'This makes the routing table the most reliable layer of defence. Build the network so that the default state is "no path" - then add paths only where they\'re needed.',
             '',
             '**Lesson 6: CLI fixes reality; Terraform fixes state**',
             '',
@@ -758,9 +758,9 @@ The project demonstrates the full network security lifecycle: design → build �
             '',
             '**3. Add the NACL for the app subnet.** The app subnet currently uses the VPC\'s default NACL, which allows all traffic. That\'s the AWS default and not wrong, but for full defence-in-depth parity with the other tiers, an app-subnet NACL would restrict ingress to the public subnet\'s CIDR and egress to the data subnet. The security groups already provide this control, so it\'s an additional layer rather than a gap.',
             '',
-            '**4. Add VPC endpoints for AWS services.** In a real environment, the app tier\'s traffic to S3 or DynamoDB would go via NAT, costing money and adding a hop. VPC endpoints let you reach AWS services without going through the internet. That\'s both a cost optimisation and a security improvement — traffic stays inside AWS\'s network.',
+            '**4. Add VPC endpoints for AWS services.** In a real environment, the app tier\'s traffic to S3 or DynamoDB would go via NAT, costing money and adding a hop. VPC endpoints let you reach AWS services without going through the internet. That\'s both a cost optimisation and a security improvement - traffic stays inside AWS\'s network.',
             '',
-            '**5. Test the tag-drift scenario in advance.** The Flow Log tag going out of sync was minor but educational — it\'s exactly what Terraform drift detection is for. Documenting tag management as a distinct concern would have prepared me for it.'
+            '**5. Test the tag-drift scenario in advance.** The Flow Log tag going out of sync was minor but educational - it\'s exactly what Terraform drift detection is for. Documenting tag management as a distinct concern would have prepared me for it.'
           ]
         },
         {
@@ -770,11 +770,11 @@ The project demonstrates the full network security lifecycle: design → build �
             '',
             '- Three-tier VPC with public, private-app, and private-data subnets',
             '',
-            '- Routing controls — IGW for public, NAT for private-app, no route for private-data',
+            '- Routing controls - IGW for public, NAT for private-app, no route for private-data',
             '',
-            '- Three security groups — tier-scoped, identity-based tier-to-tier access, no egress on data tier',
+            '- Three security groups - tier-scoped, identity-based tier-to-tier access, no egress on data tier',
             '',
-            '- Two network ACLs — public (permissive egress, specific ingress) and data (app-subnet CIDR only)',
+            '- Two network ACLs - public (permissive egress, specific ingress) and data (app-subnet CIDR only)',
             '',
             '- VPC Flow Logs capturing ALL traffic to S3, with Block Public Access enabled',
             '',
@@ -782,13 +782,13 @@ The project demonstrates the full network security lifecycle: design → build �
             '',
             '- A misconfiguration drill demonstrating end-to-end detection and remediation',
             '',
-            '- Two remediation paths — CLI for containment, Terraform for reconciliation',
+            '- Two remediation paths - CLI for containment, Terraform for reconciliation',
             '',
             '- All infrastructure under version control with remote state',
             '',
             'The project demonstrates the network security lifecycle that cloud security engineering relies on: design the controls, build the baseline, test detection against known-bad cases, and prove remediation works.',
             '',
-            'The most valuable lesson wasn\'t about any single AWS service. It was that detection is software, and software has bugs. The false positive on ephemeral ports would have produced weeks of noise in a production environment. The nested JMESPath failure would have produced silent false negatives — the worst kind. Both bugs were found by running the detector against a deliberately broken environment, not by reading the code.',
+            'The most valuable lesson wasn\'t about any single AWS service. It was that detection is software, and software has bugs. The false positive on ephemeral ports would have produced weeks of noise in a production environment. The nested JMESPath failure would have produced silent false negatives - the worst kind. Both bugs were found by running the detector against a deliberately broken environment, not by reading the code.',
             '',
             'That\'s the discipline this project exists to demonstrate.'
           ]
